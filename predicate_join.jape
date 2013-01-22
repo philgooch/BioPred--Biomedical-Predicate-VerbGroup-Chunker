@@ -1,0 +1,54 @@
+Imports: {
+	import static gate.Utils.*;
+}
+
+
+Phase:	JoinPredicate
+Input:  Split Token Predicate VG
+Options: control = appelt
+
+
+
+
+Rule: CCJoin1
+(
+	({Predicate})[1, 2]
+	{Token.category == CC}
+	({VG} | {Predicate})[1, 2]
+	(IN | ADV)?
+):pred
+-->  
+:pred {
+	inputAS.removeAll(predAnnots.get("Predicate"));
+},                      
+:pred.Predicate = {type="cc-join"}
+
+
+
+Rule: CCJoin2
+(
+	({VG} | {Predicate})[1, 2]
+	{Token.category == CC}
+	({Predicate})[1, 2]
+	(IN | ADV)?
+):pred
+-->  
+:pred {
+	inputAS.removeAll(predAnnots.get("Predicate"));
+},                      
+:pred.Predicate = {type="cc-join"}
+
+
+
+
+Rule: PPJoin
+(
+	({VG} | {Predicate})[2]
+	{Token.category == NN}
+	IN
+):pred
+-->   
+:pred {
+	inputAS.removeAll(predAnnots.get("Predicate"));
+},                     
+:pred.Predicate = {type="pp-join"}

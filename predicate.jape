@@ -1,0 +1,161 @@
+/*
+*  
+* Filename: 		predicate.jape
+* Author:			Phil Gooch 2012
+* Description:		Predicate relations
+*				
+*/
+
+
+
+Phase:	PredicatePhrase
+Input:  Split Token VG
+Options: control = appelt
+
+
+
+MACRO: ADJ
+(
+	(
+		{Token.category == JJ} |
+		{Token.category == JJS} |
+		{Token.category == JJSS} |
+		{Token.category == JJR}
+	)
+)
+
+MACRO: ADV
+(
+	{Token.category == RB} |
+	{Token.category == RBR} |
+	{Token.category == RBS} 
+)
+
+
+MACRO: IN
+(
+	{Token.category == IN} |
+	{Token.category == RP} |
+	{Token.category == TO, !VG}
+)
+	
+	
+MACRO: BE
+(
+	{VG contains {Token.string ==~ "am|are|is|was|were|be|been|being|seem|seems|seemed|seeming|becoming|become|becomes|became"}} 
+)
+
+
+MACRO: HAVE
+(
+	{VG contains {Token.string ==~ "have|has|had"}} 
+)
+
+
+MACRO: PREPREDICATE
+(
+	(ADV)[0, 2] 
+	(
+		{VG}
+	)[1, 3]
+)
+
+
+MACRO: PREPREDICATE2
+(
+	(ADV)[1, 2] 
+	(
+		{VG}
+	)[1, 3]
+	(
+		{Token.category == NN}
+		IN
+	)?
+)
+
+
+MACRO: PREDICATE
+(
+	(ADV)[0, 2]
+	(ADJ)[0, 5] 
+	(ADV)?
+	(
+		{VG.tense == Inf} | 
+		{VG.tense =~ "Per"} | 
+		IN
+	)[1, 2]
+	(
+		{Token.category == NN}
+		IN
+	)?
+)
+
+
+
+/* is effective as, may be no more effective than */
+Rule: MatchBeAdjectivalPredicate
+(
+	(ADV)[0, 2]
+	(
+		{VG.type == "MODAL"} | 
+		BE
+	)[1, 2] 
+	PREDICATE
+):pred
+-->                        
+:pred.Predicate = {type="be"}
+
+
+
+Rule: MatchHaveAdjectivalPredicate
+(
+	(ADV)[0, 2]
+	(
+		{VG.type == "MODAL"} | 
+		HAVE
+	)[1, 2] 
+	PREDICATE
+):pred
+-->                        
+:pred.Predicate = {type="has"}
+
+
+
+Rule: MatchAdjectivalPredicate
+(
+	PREPREDICATE
+	PREDICATE
+):pred
+-->                        
+:pred.Predicate = {}
+
+
+Rule: MatchPrePredicate
+(
+	PREPREDICATE2
+):pred
+-->                        
+:pred.Predicate = {}
+
+
+Rule: MatchInfinitivePredicate
+(
+	{VG}
+	(
+		{VG@cleanString =~ "ing$"} |
+		{VG contains {Token.category == TO}}
+	)
+):pred
+-->                        
+:pred.Predicate = {}
+
+
+
+Rule: MatchModalPredicate
+(
+	{VG.type == MODAL}
+):pred
+-->                        
+:pred.Predicate = {}
+
+	
