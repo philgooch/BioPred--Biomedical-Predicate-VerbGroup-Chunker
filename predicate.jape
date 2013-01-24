@@ -32,6 +32,18 @@ MACRO: ADV
 )
 
 
+MACRO: NP
+(
+	({Token.category == DT})?
+	(ADV)[0, 2]
+	(ADJ)[0, 5]
+	(
+		{Token.category ==~ "NN|NNS", Token.string ==~ "[a-z]+(ent|tion|ness|ance|ence)(s)?"} |
+		{Token.category ==~ "NN|NNS", Token.string ==~ "[a-z]+(c|t)(y|ies)?"}
+	)
+)
+
+
 MACRO: IN
 (
 	{Token.category == IN} |
@@ -68,7 +80,7 @@ MACRO: PREPREDICATE2
 		{VG}
 	)[1, 3]
 	(
-		{Token.category == NN}
+		NP
 		IN
 	)?
 )
@@ -82,10 +94,12 @@ MACRO: PREDICATE
 	(
 		{VG.tense == Inf} | 
 		{VG.tense =~ "Per"} | 
+		{VG.tense =~ "Pre"} |
+		{VG.neg == yes} |
 		IN
 	)[1, 2]
 	(
-		{Token.category == NN}
+		NP
 		IN
 	)?
 )
@@ -146,6 +160,7 @@ Rule: MatchInfinitivePredicate
 		{VG contains {Token.category == TO}}
 	)
 ):pred
+{!Token.category == NN}
 -->                        
 :pred.Predicate = {}
 
@@ -154,6 +169,24 @@ Rule: MatchInfinitivePredicate
 Rule: MatchModalPredicate
 (
 	{VG.type == MODAL}
+):pred
+-->                        
+:pred.Predicate = {}
+
+
+Rule: MatchNegPredicate
+(
+	{VG.neg == yes}
+):pred
+-->                        
+:pred.Predicate = {polarity=NEG}
+
+
+Rule: MatchPPPredicate
+(
+	PREPREDICATE
+	NP
+	IN
 ):pred
 -->                        
 :pred.Predicate = {}

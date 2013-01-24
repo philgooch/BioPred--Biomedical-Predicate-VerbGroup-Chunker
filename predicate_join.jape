@@ -44,7 +44,7 @@ Rule: CCJoin2
 Rule: PPJoin
 (
 	({VG} | {Predicate})[2]
-	{Token.category == NN}
+	NP
 	IN
 ):pred
 -->   
