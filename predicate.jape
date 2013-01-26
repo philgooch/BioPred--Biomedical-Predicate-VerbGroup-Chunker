@@ -38,8 +38,8 @@ MACRO: NP
 	(ADV)[0, 2]
 	(ADJ)[0, 5]
 	(
-		{Token.category ==~ "NN|NNS", Token.string ==~ "[a-z]+(ent|tion|ness|ance|ence)(s)?"} |
-		{Token.category ==~ "NN|NNS", Token.string ==~ "[a-z]+(c|t)(y|ies)?"}
+		{Token.category ==~ "NN|NNS", Token.string ==~ "[a-z]{2,}(age|ent|tion|ness|ance|ence|ship)(s)?"} |
+		{Token.category ==~ "NN|NNS", Token.string ==~ "[a-z]{2,}(c|t)(y|ies)?"}
 	)
 )
 
