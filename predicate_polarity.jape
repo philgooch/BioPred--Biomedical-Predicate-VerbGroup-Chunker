@@ -1,0 +1,28 @@
+Phase:	PredicatePolarity
+Input:  Predicate VG
+Options: control = all
+
+
+
+Rule: Polarity
+(
+	{Predicate contains {VG.neg == yes}}
+):pred
+-->  
+:pred {
+	for (Annotation pred : predAnnots) {
+		pred.getFeatures().put("polarity", "NEG");
+	}
+}
+
+
+Rule: Modality
+(
+	{Predicate contains {VG.type == MODAL}}
+):pred
+-->  
+:pred {
+	for (Annotation pred : predAnnots) {
+		pred.getFeatures().put("modality", "POSS");
+	}
+}

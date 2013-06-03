@@ -141,7 +141,7 @@ Rule: MatchAdjectivalPredicate
 	PREDICATE
 ):pred
 -->                        
-:pred.Predicate = {}
+:pred.Predicate = {type="adj"}
 
 
 Rule: MatchPrePredicate
@@ -149,7 +149,7 @@ Rule: MatchPrePredicate
 	PREPREDICATE2
 ):pred
 -->                        
-:pred.Predicate = {}
+:pred.Predicate = {type="pre"}
 
 
 Rule: MatchInfinitivePredicate
@@ -189,6 +189,6 @@ Rule: MatchPPPredicate
 	IN
 ):pred
 -->                        
-:pred.Predicate = {}
+:pred.Predicate = {type="pp"}
 
 	

@@ -3,3 +3,4 @@ Phases:
 VerbGroups
 predicate
 predicate_join
+predicate_polarity
