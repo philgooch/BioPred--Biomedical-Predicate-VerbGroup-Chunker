@@ -9,6 +9,18 @@ Options: control = appelt
 
 
 
+Rule: VGJoin
+(
+	({Predicate})[1, 2]
+	({VG})[1, 2]
+):pred
+-->  
+:pred {
+	inputAS.removeAll(predAnnots.get("Predicate"));
+},                      
+:pred.Predicate = {type="vg-join"}
+
+
 
 Rule: CCJoin1
 (
