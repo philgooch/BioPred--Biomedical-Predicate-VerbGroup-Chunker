@@ -38,7 +38,7 @@ MACRO: NP
 	(ADV)[0, 2]
 	(ADJ)[0, 5]
 	(
-		{Token.category ==~ "NN|NNS", Token.string ==~ "[a-z]{2,}(age|ant|ent|tion|ness|ance|ence|ship)(s)?"} |
+		{Token.category ==~ "NN|NNS", Token.string ==~ "[a-z]{2,}(age|[ae]nt|[st]ion|ness|[ae]nce|ship)(s)?"} |
 		{Token.category ==~ "NN|NNS", Token.string ==~ "[a-z]{2,}(c|t)(y|ies)?"}
 	)
 )
