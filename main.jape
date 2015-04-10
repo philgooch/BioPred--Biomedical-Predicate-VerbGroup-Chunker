@@ -1,6 +1,8 @@
 MultiPhase:	PredicatePhrase
 Phases: 
 VerbGroups
+relation_root
 predicate
 predicate_join
+predicate_root
 predicate_polarity

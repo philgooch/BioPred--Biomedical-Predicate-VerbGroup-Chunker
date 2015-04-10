@@ -8,6 +8,16 @@ Input:  Split Token Predicate VG
 Options: control = appelt
 
 
+Rule: PredicateJoin
+(
+	({Predicate})[2]
+):pred
+-->  
+:pred {
+	inputAS.removeAll(predAnnots.get("Predicate"));
+},                      
+:pred.Predicate = {type="predicate-join"}
+
 
 Rule: VGJoin
 (

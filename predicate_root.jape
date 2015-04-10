@@ -1,0 +1,30 @@
+Imports: {
+	import static gate.Utils.*;
+}
+
+Phase:	AddPredicateRoot
+Input:  Split Predicate VG Token
+Options: control = appelt
+
+
+
+Rule: MatchRelation
+(
+	{Predicate, VG} |
+	{Predicate contains VG}
+):r
+-->                      
+:r {
+	for (Annotation r : rAnnots) {
+	    AnnotationSet rRelationAS = inputAS.getContained( start(rAnnots), end(rAnnots) ).get("VG");
+	    for (Annotation t : rRelationAS) {
+	        FeatureMap fm = t.getFeatures();
+	        FeatureMap rFm = r.getFeatures();
+	        Object root = fm.get("root");
+	        if (root != null) {
+	            rFm.put("root", root);
+	        }
+	    }
+		
+	}
+}

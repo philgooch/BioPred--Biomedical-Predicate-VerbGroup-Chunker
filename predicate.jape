@@ -60,7 +60,7 @@ MACRO: BE
 
 MACRO: HAVE
 (
-	{VG contains {Token.string ==~ "have|has|had"}} 
+	{VG contains {Token.string ==~ "have|having|has|had"}} 
 )
 
 

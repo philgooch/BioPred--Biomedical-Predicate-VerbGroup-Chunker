@@ -1,0 +1,35 @@
+Imports: {
+	import static gate.Utils.*;
+}
+
+Phase:	AddRelationRoot
+Input:  Split VG Token
+Options: control = appelt
+
+
+
+Rule: MatchRelation
+(
+	{VG, Token}
+):r
+-->                      
+:r {
+	for (Annotation r : rAnnots) {
+	    AnnotationSet rTokenAS = inputAS.getContained( start(rAnnots), end(rAnnots) ).get("Token");
+	    int tokRootLen = 0;
+	    String tokRoot = null;
+	    
+	    // Get the root of the last verb Token in the VG
+	    List<Annotation> tokList = inDocumentOrder(rTokenAS);
+	    for (Annotation t : tokList) {
+	        FeatureMap tokFeats = t.getFeatures();
+	        String category = (String)tokFeats.get("category");
+	        if (category != null && category.matches("^VB.$") ) {
+	            tokRoot = (String)tokFeats.get("root");
+	        }
+	    }
+	    FeatureMap relFeats = r.getFeatures();
+	    String relRoot = (String)relFeats.get("root");
+	    relFeats.put("root", tokRoot);
+	}
+}

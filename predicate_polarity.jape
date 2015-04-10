@@ -6,7 +6,9 @@ Options: control = all
 
 Rule: Polarity
 (
-	{Predicate contains {VG.neg == yes}}
+	{Predicate contains {VG.neg == yes}} |
+	{Predicate contains {VG@cleanString =~ "^fail"}} |
+	{Predicate@string =~ "\\bno\\b"}
 ):pred
 -->  
 :pred {
